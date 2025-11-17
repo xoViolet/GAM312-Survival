@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Resource_M.h"
+#include "BuildingPart.h"
 #include "PlayerChar.generated.h"
 
 UCLASS()
@@ -56,19 +57,31 @@ public:
 		float Stamina = 100.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
-	int Wood;
+		int Wood;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
-	int Stone;
+		int Stone;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
-	int Berry;
+		int Berry;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Resources")
-	TArray<int> ResourcesArray;
+		TArray<int> ResourcesArray;
 
 	UPROPERTY(EditAnywhere, Category = "Resources")
-	TArray<FString> ResourcesNameArray;
+		TArray<FString> ResourcesNameArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building Supplies")
+		TArray<int> BuildingArray;
+
+	UPROPERTY()
+		bool isBuilding;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+		TSubclassOf<ABuildingPart> BuildPartClass;
+
+	UPROPERTY()
+		ABuildingPart* spawnedPart;
 
 	UFUNCTION(BlueprintCallable)
 		void SetHealth(float amount);
@@ -84,5 +97,14 @@ public:
 
 	UFUNCTION()
 		void GiveResource(float amount, FString resourceType);
+
+	UFUNCTION(BlueprintCallable)
+		void UpdateResources(float woodAmount, float stoneAmount, FString buildingObject);
+
+	UFUNCTION(BlueprintCallable)
+		void spawnBuilding(int buildingID, bool& isSuccess);
+
+	UFUNCTION()
+		void RotateBuilding();
 
 };
